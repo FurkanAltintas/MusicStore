@@ -11,9 +11,9 @@ function loadDataTable() {
             "url": "/Admin/Category/GetAll"
         },
         "columns": [
-            { "data": "Name", "width": "60%" },
+            { "data": "name", "width": "60%" },
             {
-                "data": "Id",
+                "data": "id",
                 "render": function (data) {
                     return `
                             <div class="text-center">

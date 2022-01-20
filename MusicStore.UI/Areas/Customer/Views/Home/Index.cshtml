@@ -1,8 +1,45 @@
-﻿@{
+﻿@model IEnumerable<Product>
+
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <form class="d-flex">
+            <input class="form-control me-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-3">
+    @foreach (var product in Model)
+    {
+        <div class="col">
+            <div class="card">
+                <img src="https://randomwordgenerator.com/img/picture-generator/55e4dd404f53ae14f1dc8460962e33791c3ad6e04e50744172287edc954fc7_640.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-danger fw-bold">@product.Title</h5>
+                    <p class="card-subtitle">
+                        @(product.Description.Length < 75
+                    ? product.Description : product.Description.Substring
+                    (0, product.Description.Substring(0, 75).LastIndexOf(" ")))) ...
+                    </p>
+
+                    <p class="card-text mt-3">
+                        <a class="btn btn-outline-success btn-sm" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="">
+                            @product.ListPrice $
+                            <sup><del>@product.Price</del></sup>
+                            <i class="fa fa-money" style="margin-left: 5px;"></i>
+                        </a>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+    }
 </div>

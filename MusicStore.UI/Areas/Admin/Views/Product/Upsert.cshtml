@@ -1,0 +1,106 @@
+﻿@model ProductVM
+
+@{
+    ViewData["Title"] = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var upsert = Model.Product.Id > 0 ? "Edit" : "Create";
+    string group = "form-group mt-4";
+}
+
+<h4>Product</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Upsert" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="@group">
+                <label asp-for="Product.Title" class="control-label"></label>
+                <input asp-for="Product.Title" class="form-control" />
+                <span asp-validation-for="Product.Title" class="text-danger"></span>
+            </div>
+
+            <div class="@group">
+                <label asp-for="Product.Description" class="control-label"></label>
+                <textarea asp-for="Product.Description" class="form-control" cols="5" rows="5"></textarea>
+            </div>
+
+
+            <div class="@group">
+                <input class="form-control" name="files" type="file" id="uploadBox" multiple />
+            </div>
+
+
+            <div class="@group">
+                @Html.DropDownListFor(x => x.Product.CategoryId, Model.Categories, "- Select a Category -", new { @class="form-control"})
+            </div>
+
+            <div class="@group">
+                @Html.DropDownListFor(x => x.Product.CoverTypeId, Model.CoverTypes, "- Select a Cover Type -", new { @class="form-control"})
+            </div>
+
+            <div class="@group">
+                <label asp-for="Product.ISBN" class="control-label"></label>
+                <input asp-for="Product.ISBN" class="form-control" />
+                <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+            </div>
+
+            <div class="@group">
+                <label asp-for="Product.Author" class="control-label"></label>
+                <input asp-for="Product.Author" class="form-control" />
+                <span asp-validation-for="Product.Author" class="text-danger"></span>
+            </div>
+
+            <div class="@group">
+                <label asp-for="Product.ListPrice" class="control-label"></label>
+                <input asp-for="Product.ListPrice" class="form-control" type="number" />
+                <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+            </div>
+
+            <div class="@group">
+                <label asp-for="Product.Price" class="control-label"></label>
+                <input asp-for="Product.Price" class="form-control" type="number" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <input type="submit" value="@upsert" onclick="return validateInput()" class="btn btn-primary form-control" />
+                </div>
+                <div class="col-md-6">
+                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        @if (Model.Product.Id != 0)
+        {
+            <img src="@Model.Product.ImageUrl" width="100%">
+        }
+    </div>
+</div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+
+<script src="https://cdn.tiny.cloud/1/2scskqryr2nk88z081dil9dd6awlj2t0myjutxzj23l3wuiy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'lists', // advlist autolink lists link image charmap print preview hr anchor pagebreak
+      toolbar_mode: 'file edit format', // floating
+    });
+
+    function validateInput() {
+        if (document.getElementById("uploadBox").value == "") {
+            swal("Error", "Please select an image", "error");
+            return false;
+        }
+    }
+</script>
+
+}

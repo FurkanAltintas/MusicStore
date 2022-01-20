@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using MusicStore.DataAccess.Data;
 using MusicStore.DataAccess.IMainRepository;
 using MusicStore.DataAccess.MainRepository;
+using MusicStore.UI.Middlewares;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,18 +68,7 @@ namespace MusicStore.UI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                name: "areas",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapRazorPages();
-            });
+            app.Route(); // MusicStore.UI > Middlewares > EndPoint
         }
     }
 }

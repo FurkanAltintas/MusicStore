@@ -10,6 +10,7 @@ namespace MusicStore.DataAccess.IMainRepository
     {
         ICategoryRepository Category { get; } // değer alabilir
         ICoverTypeRepository CoverType { get; }
+        IProductRepository Product { get; }
         ISPCallRepository Sp_Call { get; }
 
         void Save();

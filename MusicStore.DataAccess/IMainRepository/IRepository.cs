@@ -14,8 +14,8 @@ namespace MusicStore.DataAccess.IMainRepository
 
         T Get(int id); // id değerine göre T değerini getir (Tek bir tane getirir)
 
-        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>,
-                              IOrderedQueryable<T>> orderBy = null,
+        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, 
+                              Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                               string includeProperty = null);
 
         // Expression<Func<T, bool>> filter = null, (bir filtreleme ayarladık)

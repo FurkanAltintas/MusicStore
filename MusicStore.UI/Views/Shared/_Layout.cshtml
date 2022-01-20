@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    string area = this.ViewContext.RouteData.Values["area"].ToString();
+    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
+    string action = this.ViewContext.RouteData.Values["action"].ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,17 +32,19 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle show" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Category</a>
-                            @*<div class="dropdown-menu show" data-bs-popper="none">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
-                                </div>*@
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="CoverType" asp-action="Index">Cover Type</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -45,7 +54,17 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-area="@area" asp-controller="@controller" asp-action="@action">@area</a></li>
+                <li class="breadcrumb-item"><a asp-controller="@controller" asp-action="@action">@controller</a></li>
+                <li class="breadcrumb-item active">@action</li>
+            </ol>
+
             @RenderBody()
+
+
+
         </main>
     </div>
 

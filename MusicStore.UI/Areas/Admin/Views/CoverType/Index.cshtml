@@ -1,9 +1,10 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<a asp-action="Upsert" class="btn btn-success btn-sm mb-3 float-end"><i class="fas fa-plus"></i> &nbsp; Create New Category</a>
+<a asp-action="Upsert" class="btn btn-success btn-sm mb-3 float-end"><i class="fas fa-plus"></i> &nbsp; Create New Cover Type</a>
 
 <table id="tblData" class="table" style="width: 100%;">
     <thead>
@@ -15,5 +16,5 @@
 </table>
 
 @section Scripts {
-<script src="~/js/category.js"></script>
+<script src="~/js/coverType.js"></script>
 }

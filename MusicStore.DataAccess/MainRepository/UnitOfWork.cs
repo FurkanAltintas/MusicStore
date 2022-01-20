@@ -16,12 +16,15 @@ namespace MusicStore.DataAccess.MainRepository
         {
             _context = context;
             Category = new CategoryRepository(_context);
+            CoverType = new CoverTypeRepository(_context);
             Sp_Call = new SPCallRepository(_context);
         }
 
         public ICategoryRepository Category { get; private set; }
 
         public ISPCallRepository Sp_Call { get; private set; }
+
+        public ICoverTypeRepository CoverType { get; private set; }
 
         public void Dispose()
         {

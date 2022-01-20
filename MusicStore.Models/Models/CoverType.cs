@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Models.Models
 {
-    public class Category
+    public class CoverType
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Kategori Adı alanını boş bırakamazsınız")]
-        [StringLength(250, MinimumLength = 3, ErrorMessage ="Şartlara uygun bir değer giriniz")]
+        [Required(ErrorMessage = "Cover Type alanını boş bırakamazsınız")]
+        [MaxLength(50, ErrorMessage = "50 Karakterden uzun olamaz")]
         public string Name { get; set; }
     }
 }

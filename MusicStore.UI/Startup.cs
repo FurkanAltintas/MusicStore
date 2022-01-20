@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MusicStore.DataAccess.Data;
+using MusicStore.DataAccess.IMainRepository;
+using MusicStore.DataAccess.MainRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +36,13 @@ namespace MusicStore.UI
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            // biri senden IUnitOfWork isterse sen ona UnitOfWork ver.
+            // Scoped: Her request için bir tane oluþturur, her request için yeni bir tane oluþturmadan önce eski olaný atar.
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

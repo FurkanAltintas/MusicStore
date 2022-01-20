@@ -25,19 +25,22 @@
                     <p class="card-subtitle">
                         @(product.Description.Length < 75
                     ? product.Description : product.Description.Substring
-                    (0, product.Description.Substring(0, 75).LastIndexOf(" ")))) ...
+                    (0, product.Description.Substring(0, 75).LastIndexOf(" ")))
                     </p>
 
                     <p class="card-text mt-3">
                         <a class="btn btn-outline-success btn-sm" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="">
                             @product.ListPrice $
                             <sup><del>@product.Price</del></sup>
-                            <i class="fa fa-money" style="margin-left: 5px;"></i>
                         </a>
                     </p>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+                    <small class="text-muted">
+                        Last updated 3 mins ago
+                        <br>
+                        <b>@product.Category.Name - @product.CoverType.Name</b>
+                    </small>
                 </div>
             </div>
         </div>

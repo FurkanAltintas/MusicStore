@@ -1,8 +1,9 @@
-﻿
-@{
+﻿@{
     string area = this.ViewContext.RouteData.Values["area"].ToString();
     string controller = this.ViewContext.RouteData.Values["controller"].ToString();
     string action = this.ViewContext.RouteData.Values["action"].ToString();
+
+    string active = "fw-bold active";
 }
 
 <!DOCTYPE html>
@@ -29,18 +30,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark @("Home" == controller ? active : null)" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                            <a class="nav-link text-dark @("Product" == controller ? active : null)" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="CoverType" asp-action="Index">Cover Type</a>
+                            <a class="nav-link text-dark @("Category" == controller ? active : null)" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark @("CoverType" == controller ? active : null)" asp-area="Admin" asp-controller="CoverType" asp-action="Index">Cover Type</a>
                         </li>
 
                         <li class="nav-item">
@@ -56,8 +57,8 @@
         <main role="main" class="pb-3">
 
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-area="@area" asp-controller="@controller" asp-action="@action">@area</a></li>
-                <li class="breadcrumb-item"><a asp-controller="@controller" asp-action="@action">@controller</a></li>
+                <li class="breadcrumb-item"><a asp-area="@area" asp-controller="@controller" asp-action="@action" class="text-decoration-none">@area</a></li>
+                <li class="breadcrumb-item"><a asp-controller="@controller" asp-action="@action" class="text-decoration-none">@controller</a></li>
                 <li class="breadcrumb-item active">@action</li>
             </ol>
 

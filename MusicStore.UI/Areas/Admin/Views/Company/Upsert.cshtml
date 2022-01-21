@@ -1,0 +1,69 @@
+﻿@model Company
+
+@{
+    ViewData["Title"] = "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var upsert = Model.Id > 0 ? "Edit" : "Create";
+}
+
+<h4>Company @upsert</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Upsert" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StreetAddress" class="control-label"></label>
+                <input asp-for="StreetAddress" class="form-control" />
+                <span asp-validation-for="StreetAddress" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-check form-switch">
+                <input asp-for="IsAuthorizedCompany" class="form-check-input" type="checkbox">
+                <label asp-for="IsAuthorizedCompany" class="form-check-label"></label>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <input type="submit" value="@upsert" class="btn btn-primary form-control" />
+                </div>
+                <div class="col-md-6">
+                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    <partial name="_ValidationScriptsPartial" />
+     }
+}

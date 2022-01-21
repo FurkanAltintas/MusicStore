@@ -9,6 +9,7 @@ namespace MusicStore.DataAccess.IMainRepository
     public interface IUnitOfWork : IDisposable
     {
         ICategoryRepository Category { get; } // değer alabilir
+        ICompanyRepository Company { get; }
         ICoverTypeRepository CoverType { get; }
         IProductRepository Product { get; }
         ISPCallRepository Sp_Call { get; }

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<a asp-action="Upsert" class="btn btn-success btn-sm mb-3 float-end"><i class="fas fa-plus"></i> &nbsp; Create New Company</a>
+
+<table id="tblData" class="table table-bordered" style="width: 100%;">
+    <thead class="table-info">
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Phone Number</th>
+            <th>Authorized</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+<script src="~/js/company.js"></script>
+}

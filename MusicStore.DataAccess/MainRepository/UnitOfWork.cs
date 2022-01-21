@@ -16,6 +16,7 @@ namespace MusicStore.DataAccess.MainRepository
         {
             _context = context;
             Category = new CategoryRepository(_context);
+            Company = new CompanyRepository(_context);
             CoverType = new CoverTypeRepository(_context);
             Product = new ProductRepository(_context);
             Sp_Call = new SPCallRepository(_context);
@@ -28,6 +29,8 @@ namespace MusicStore.DataAccess.MainRepository
         public ICoverTypeRepository CoverType { get; private set; }
 
         public IProductRepository Product { get; private set; }
+
+        public ICompanyRepository Company { get; private set; }
 
         public void Dispose()
         {

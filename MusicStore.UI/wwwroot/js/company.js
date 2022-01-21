@@ -8,29 +8,39 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/Admin/Product/GetAll"
+            "url": "/Admin/Company/GetAll"
         },
         "columns": [
-            { "data": "title", "width": "10%" },
-            { "data": "isbn", "width": "10%" },
-            { "data": "price", "width": "10%" },
-            { "data": "author", "width": "10%" },
-            { "data": "category.name", "width": "15%" }, //  Category class içerisinde Name alanı
-            { "data": "coverType.name", "width": "15%" }, // Küçük yazmamız gerekiyor data tiplerini
+            { "data": "name", "width": "10%" },
+            { "data": "streetAddress", "width": "10%" }, // ilk harf küçük başlarken sonrasında birleşik ise büyük olucak
+            { "data": "city", "width": "10%" },
+            { "data": "state", "width": "15%" },
+            { "data": "phoneNumber", "width": "15%" },
+            {
+                "data": "isAuthorizedCompany",
+                "render": function (data) {
+                    if (data) {
+                        return '<input type="checkbox" disabled checked/>'
+                    }
+                    else {
+                        return '<input type="checkbox" disabled/>'
+                    }
+                }
+            },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                             <div class="text-center">
-                                <a href="/Admin/Product/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                                <a href="/Admin/Company/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                     <i class="fas fa-edit"></i> 
                                 </a>
-                                <a onclick=Delete("/Admin/Product/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                                <a onclick=Delete("/Admin/Company/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                     <i class="fas fa-trash-alt"></i> 
                                 </a>
                             </div>
                            `;
-                }, "width": "30%"
+                }, "width": "40%"
             }
         ]
     });

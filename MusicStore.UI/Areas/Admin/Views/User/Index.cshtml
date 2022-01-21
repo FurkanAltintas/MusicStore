@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success btn-sm mb-3 float-end"><i class="fas fa-plus"></i> &nbsp; Create New User</a>
+
+<table id="tblData" class="table table-bordered" style="width: 100%;">
+    <thead class="table-info">
+        <tr>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+<script src="~/js/user.js"></script>
+}

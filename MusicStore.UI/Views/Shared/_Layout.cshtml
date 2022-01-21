@@ -1,7 +1,8 @@
 ﻿@{
-    string area = this.ViewContext.RouteData.Values["area"].ToString();
-    string controller = this.ViewContext.RouteData.Values["controller"].ToString();
-    string action = this.ViewContext.RouteData.Values["action"].ToString();
+    string area = this.ViewContext.RouteData.Values["area"]?.ToString();
+    string controller = this.ViewContext.RouteData.Values["controller"]?.ToString();
+    string action = this.ViewContext.RouteData.Values["action"]?.ToString();
+    // ? koyma sebebim identity kısmında action boş. Boş olabilir demek oluyor
 
     string active = "fw-bold active";
 }
@@ -46,6 +47,10 @@
 
                         <li class="nav-item">
                             <a class="nav-link text-dark @("Company" == controller ? active : null)" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark @("User" == controller ? active : null)" asp-area="Admin" asp-controller="User" asp-action="Index">User</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

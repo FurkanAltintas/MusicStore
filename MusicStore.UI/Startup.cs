@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using MusicStore.DataAccess.Data;
 using MusicStore.DataAccess.IMainRepository;
 using MusicStore.DataAccess.MainRepository;
 using MusicStore.UI.Middlewares;
+using MusicStore.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,15 +37,19 @@ namespace MusicStore.UI
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<IdentityUser, IdentityRole>().
+                AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            //DefaultIdentityUser yazýyordu onu IdentityUser yapýyoruz cunku býz sadece User kýsmýný kullanmýyoruz o yüzden default halini kaldýrmamýz gerekiyor
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             // biri senden IUnitOfWork isterse sen ona UnitOfWork ver.
             // Scoped: Her request için bir tane oluþturur, her request için yeni bir tane oluþturmadan önce eski olaný atar.
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

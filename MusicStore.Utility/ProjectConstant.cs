@@ -8,6 +8,9 @@ namespace MusicStore.Utility
 {
     public static class ProjectConstant
     {
+        /* Değişkenin değerini program boyunca sabit olarak tutulmasını sağlar.
+         * Const: (sabit) değer.*/
+
         public const string ResultNotFound = "Data Not  Found";
 
         //****************************************************//
@@ -25,6 +28,13 @@ namespace MusicStore.Utility
         usp_DeleteCoverType
         usp_CreateCoverType
         */
+
+        public const string Role_User_Indi = "Individual Customer"; // Bireysel Müşteri
+        public const string Role_User_Comp = "Company Customer";
+
+        public const string Role_Admin = "Admin";
+
+        public const string Role_User_Employee = "Employee";
 
     }
 }

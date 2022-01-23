@@ -1,7 +1,7 @@
 # Music Store E-Ticaret
 Asp.Net Identity is a project made to learn.
 
-#### Project Details
+### Project Details
 ------------
 - Asp.Net Core 5.0
 - Repository Pattern

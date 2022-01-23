@@ -32,24 +32,37 @@ namespace MusicStore.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().
-                AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            //DefaultIdentityUser yazýyordu onu IdentityUser yapýyoruz cunku býz sadece User kýsmýný kullanmýyoruz o yüzden default halini kaldýrmamýz gerekiyor
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            // biri senden IUnitOfWork isterse sen ona UnitOfWork ver.
-            // Scoped: Her request için bir tane oluþturur, her request için yeni bir tane oluþturmadan önce eski olaný atar.
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Service(connection: Configuration.GetConnectionString("DefaultConnection"), configuration: Configuration);
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddMvc();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+
+            services.SocialMediaAuthentication();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+
+            /* 
+             * IdleTimeout: Timeout geçerli olacaðý süre
+             * Biz süreyi 30 dakika olarak ayarladýk
+             */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +83,8 @@ namespace MusicStore.UI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();

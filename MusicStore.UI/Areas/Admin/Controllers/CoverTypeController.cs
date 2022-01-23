@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicStore.DataAccess.IMainRepository;
 using MusicStore.Models.Models;
@@ -7,6 +8,7 @@ using MusicStore.Utility;
 namespace MusicStore.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = ProjectConstant.Role_Admin)]
     public class CoverTypeController : Controller
     {
         private readonly IUnitOfWork _uow; // yazılı olmayan yazım kuralı

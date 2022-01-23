@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MusicStore.Models.Models;
+using MusicStore.Utility;
 
 namespace MusicStore.UI.Areas.Identity.Pages.Account
 {
@@ -51,6 +53,14 @@ namespace MusicStore.UI.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            public string Name { get; set; }
+            public string StreetAddress { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string PostaCode { get; set; }
+            public string PhoneNumber { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -72,7 +82,7 @@ namespace MusicStore.UI.Areas.Identity.Pages.Account
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -82,7 +92,7 @@ namespace MusicStore.UI.Areas.Identity.Pages.Account
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
@@ -101,7 +111,8 @@ namespace MusicStore.UI.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        Name = info.Principal.FindFirstValue(ClaimTypes.Name) // Name bilgisini de almak istediğimizi söylüyoruz
                     };
                 }
                 return Page();
@@ -121,7 +132,20 @@ namespace MusicStore.UI.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                // var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                // Bunu kapatıyoruz çünkü bizim için bu datalar çok az ve biz datalarımızı genişletmiştik onu kullanacağız o yüzden
+
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    StreetAddress = Input.StreetAddress,
+                    City = Input.City,
+                    State = Input.State,
+                    PostaCode = Input.PostaCode,
+                    Name = Input.Name,
+                    PhoneNumber = Input.PhoneNumber,
+                };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -129,6 +153,9 @@ namespace MusicStore.UI.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, ProjectConstant.Role_User_Indi); // rol işlemini yaptık
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);

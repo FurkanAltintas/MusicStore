@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.DataAccess.IMainRepository;
 using MusicStore.Models.Models;
 using MusicStore.Models.ViewModels;
+using MusicStore.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +14,7 @@ using System.Linq;
 namespace MusicStore.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = ProjectConstant.Role_Admin)] // rol admin bu sayfayla ilgili çalışmalar yapabilecek
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _uow; // yazılı olmayan yazım kuralı

@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.DataAccess.Data;
 using MusicStore.DataAccess.IMainRepository;
 using MusicStore.Models.Models;
+using MusicStore.Utility;
 using System;
 using System.Linq;
 
 namespace MusicStore.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = ProjectConstant.Role_Admin)]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;

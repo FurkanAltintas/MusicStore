@@ -1,4 +1,8 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using MusicStore.Utility
+
+@{
     string area = this.ViewContext.RouteData.Values["area"]?.ToString();
     string controller = this.ViewContext.RouteData.Values["controller"]?.ToString();
     string action = this.ViewContext.RouteData.Values["action"]?.ToString();
@@ -30,28 +34,60 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
                             <a class="nav-link text-dark @("Home" == controller ? active : null)" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @("Product" == controller ? active : null)" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @("Category" == controller ? active : null)" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
-                        </li>
+                        @if (User.IsInRole(ProjectConstant.Role_Admin))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @("Product" == controller ? active : null)" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @("CoverType" == controller ? active : null)" asp-area="Admin" asp-controller="CoverType" asp-action="Index">Cover Type</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @("Category" == controller ? active : null)" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @("Company" == controller ? active : null)" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @("CoverType" == controller ? active : null)" asp-area="Admin" asp-controller="CoverType" asp-action="Index">Cover Type</a>
+                            </li>
+                        }
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @("User" == controller ? active : null)" asp-area="Admin" asp-controller="User" asp-action="Index">User</a>
-                        </li>
+                        @if (User.IsInRole(ProjectConstant.Role_User_Employee) || User.IsInRole(ProjectConstant.Role_Admin))
+                        {
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @("Company" == controller ? active : null)" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @("User" == controller ? active : null)" asp-area="Admin" asp-controller="User" asp-action="Index">User</a>
+                            </li>
+                        }
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(ProjectConstant.Shopping_Cart) != null)
+                        {
+                        // Session bilgisini tutan nesne
+                            <li class="nav-item text-white">
+                                <a class="nav-link text-dark @("Cart" == controller ? active : null)" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(ProjectConstant.Shopping_Cart);
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <text>(@count)</text>
+                                    }
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark @("Cart" == controller ? active : null)" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    (0)
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

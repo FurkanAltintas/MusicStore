@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Home Page";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
@@ -29,9 +28,9 @@
                     </p>
 
                     <p class="card-text mt-3">
-                        <a class="btn btn-outline-success btn-sm" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@product.Id" class="">
-                            @product.ListPrice $
-                            <sup><del>@product.Price</del></sup>
+                        <a class="btn btn-outline-success btn-sm" asp-action="Details" asp-route-id="@product.Id">
+                            @product.Price $
+                            <sup><del>@product.ListPrice</del></sup>
                         </a>
                     </p>
                 </div>

@@ -29,12 +29,52 @@ namespace MusicStore.Utility
         usp_CreateCoverType
         */
 
+        //****************************************************//
+
         public const string Role_User_Indi = "Individual Customer"; // Bireysel Müşteri
         public const string Role_User_Comp = "Company Customer";
-
         public const string Role_Admin = "Admin";
-
         public const string Role_User_Employee = "Employee";
+
+        //****************************************************//
+
+        public const string Shopping_Cart = "ShoppingCart";
+
+        //****************************************************//
+
+        public static double GetPriceBaseOnQuantity(int quantity, double price)
+        {
+            return price;
+        }
+
+        public static string ConvertToRawHtml(string description)
+        {
+            char[] array = new char[description.Length];
+            int arrayIndex = 0;
+            bool inside = false;
+
+            for (int i = 0; i < description.Length; i++)
+            {
+                char let = description[i];
+                if (let == '<')
+                {
+                    inside = true;
+                    continue;
+                }
+                if (let != '>')
+                {
+                    inside = false;
+                    continue;
+                }
+                if (!inside)
+                {
+                    array[arrayIndex] = let;
+                    arrayIndex++;
+                }
+            }
+
+            return new string(array, 0, arrayIndex);
+        }
 
     }
 }

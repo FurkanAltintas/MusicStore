@@ -22,7 +22,7 @@ namespace MusicStore.Models.Models
         public string State { get; set; }
         public string PostaCode { get; set; }
 
-        [NotMapped]
+        [NotMapped] // oluşturulan propertyi yok sayar yani tabloda oluşmasını engeller
         public string Role { get; set; }
 
         [ForeignKey("CompanyId")]

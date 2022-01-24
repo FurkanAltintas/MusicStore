@@ -33,6 +33,7 @@ namespace MusicStore.UI.Middlewares
             // Scoped: Her request için bir tane oluşturur, her request için yeni bir tane oluşturmadan önce eski olanı atar.
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<EmailOptions>(configuration); // dependency injection için hazırlamış olduk
+            services.Configure<StripeSettings>(configuration.GetSection("Stripe"));
 
             return services;
         }

@@ -1,0 +1,162 @@
+﻿@model ShoppingCartVM
+@using Microsoft.Extensions.Options
+
+@inject IOptions<MusicStore.Utility.StripeSettings> Stripe
+
+@{
+    ViewData["Title"] = "Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="post">
+    <br />
+    <div class="backgroundWhiteBorder">
+        <div class="container">
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0 row container">
+                    <div class="col-6">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Order Summary
+                    </div>
+                    <div class="col-6 text-right">
+                        <a asp-action="Index" class="btn btn-outline-info btn-sm">Back to Cart</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-info">PickUp Details:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label asp-for="Order.Name">Name</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.Name" class="form-control" />
+                                        <span asp-validation-for="Order.Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label asp-for="Order.PhoneNumber">Phone</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.PhoneNumber" class="form-control" />
+                                        <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label asp-for="Order.StreetAddress">Street Address</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.StreetAddress" class="form-control" />
+                                        <span asp-validation-for="Order.StreetAddress" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label asp-for="Order.City">City</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.City" class="form-control" />
+                                        <span asp-validation-for="Order.City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label asp-for="Order.State">State</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.State" class="form-control" />
+                                        <span asp-validation-for="Order.State" class="text-danger"></span>
+
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label asp-for="Order.PostCode">Postal Code</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input asp-for="Order.PostCode" class="form-control" />
+                                        <span asp-validation-for="Order.PostCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">Order Summary:</span>
+                                </h4>
+                                <ul class="list-group mb-3">
+                                    @foreach (var cart in Model.ShoppingCarts)
+                                    {
+
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div>
+                                                <h6 class="my-0">@cart.Product.Title</h6>
+                                                <small class="text-muted">Quantity: @cart.Count</small>
+                                            </div>
+                                            <span class="text-muted">$ --PRICE* @(cart.Price * cart.Count)</span>
+                                        </li>
+                                    }
+
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <small class="text-info">Total (USD)</small>
+                                        <strong class="text-info">$ @Model.Order.OrderTotal</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12 col-md-8 pt-2">
+                            <p style="color:maroon; font-size:14px;">Estimate Arrival Date: @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()</p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            @{
+                                var orderTotalForStripe = Model.Order.OrderTotal * 100;
+                            }
+
+                            @if (Model.Order.ApplicationUser.Company == null || !Model.Order.ApplicationUser.Company.IsAuthorizedCompany)
+                            {
+
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="@Stripe.Value.PublishableKey"
+                                    data-amount="@orderTotalForStripe"
+                                    data-name="MusicStore"
+                                    data-label="Place Order"
+                                    data-description="Get Musics Store"
+                                    data-locale="auto"
+                                    data-allow-remember-me="false"
+                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                                </script>
+
+                                <script>
+                                    document.getElementsByClassName("stripe-button-el")[0].style.display="none";
+                                </script>
+
+                                <button type="submit" value="Place Order" class="btn btn-success form-control">Place Order</button>
+                            }
+                            else
+                            {
+                                <button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

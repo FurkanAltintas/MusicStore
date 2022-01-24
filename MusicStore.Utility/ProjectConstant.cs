@@ -42,6 +42,18 @@ namespace MusicStore.Utility
 
         //****************************************************//
 
+        public const string PaymentStatusPending = "Pending";
+        public const string PaymentStatusRejected = "Rejected";
+        public const string PaymentStatusApproved = "Approved";
+        public const string PaymentStatusDelayed = "Delayed";
+
+        //****************************************************//
+
+        public const string StatusPending = "Pending";
+        public const string StatusApproved = "Approved";
+
+        //****************************************************//
+
         public static double GetPriceBaseOnQuantity(int quantity, double price)
         {
             return price;

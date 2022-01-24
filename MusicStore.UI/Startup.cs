@@ -13,6 +13,7 @@ using MusicStore.DataAccess.IMainRepository;
 using MusicStore.DataAccess.MainRepository;
 using MusicStore.UI.Middlewares;
 using MusicStore.Utility;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,6 +80,9 @@ namespace MusicStore.UI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

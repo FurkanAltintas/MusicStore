@@ -9,14 +9,14 @@ namespace MusicStore.UI.Middlewares
         {
             services.AddAuthentication().AddFacebook(options =>
             {
-                options.AppId = "341606417617781";
-                options.AppSecret = "88c6543e7395b1278de0985ff60abfe9";
+                options.AppId = "appId";
+                options.AppSecret = "SecretId";
             });
 
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = "1077506827939-g05arfjl09pakiitmiffifes7ocsj7lg.apps.googleusercontent.com";
-                options.ClientSecret = "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";
+                options.ClientId = "clientId";
+                options.ClientSecret = "clientSecret";
             });
 
             // null yazan yere kendi secret bilgilerinizi girmeniz gerekmektedir

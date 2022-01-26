@@ -46,7 +46,7 @@ namespace MusicStore.UI.Areas.Admin.Controllers
         [Authorize(Roles =  ProjectConstant.Role_Admin + "," + ProjectConstant.Role_User_Employee)]
         public IActionResult StartProcessing(int id)
         {
-            Order order = _uow.Order.GetFirstOrDefault(o => o.Id == id);
+            Models.Models.Order order = _uow.Order.GetFirstOrDefault(o => o.Id == id);
             order.OrderStatus = ProjectConstant.StatusInProcess;
             return RedirectToAction(nameof(Index));
         }
@@ -55,7 +55,7 @@ namespace MusicStore.UI.Areas.Admin.Controllers
         [Authorize(Roles=ProjectConstant.Role_Admin + "," + ProjectConstant.Role_User_Employee)]
         public IActionResult ShipOrder()
         {
-            Order order = _uow.Order.GetFirstOrDefault(o => o.Id == orderDetailsVM.Order.Id);
+            Models.Models.Order order = _uow.Order.GetFirstOrDefault(o => o.Id == orderDetailsVM.Order.Id);
             order.TrackingNumber = orderDetailsVM.Order.TrackingNumber;
             order.Carrier = orderDetailsVM.Order.Carrier;
             order.OrderStatus = ProjectConstant.StatusShipped;
@@ -105,7 +105,7 @@ namespace MusicStore.UI.Areas.Admin.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            IEnumerable<Order> orders;
+            IEnumerable<Models.Models.Order> orders;
 
             if (User.IsInRole(ProjectConstant.Role_Admin) || User.IsInRole(ProjectConstant.Role_User_Employee)) // Rolüm admin veya employee ise
                 orders = _uow.Order.GetAll(includeProperty: "User");

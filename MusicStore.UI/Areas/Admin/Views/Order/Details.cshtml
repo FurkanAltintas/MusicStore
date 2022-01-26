@@ -165,7 +165,7 @@
                                            id="shippingDate" type="text" readonly class="form-control" />
                                 </div>
                             </div>
-                            @if (User.IsInRole(ProjectConstant.Role_Admin) || User.IsInRole(ProjectConstant.Role_Employee))
+                            @if (User.IsInRole(ProjectConstant.Role_Admin) || User.IsInRole(ProjectConstant.Role_User_Employee))
                             {
                                 <div class="row my-1">
                                     <div class="col-3">Transaction ID</div>

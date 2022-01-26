@@ -66,6 +66,11 @@
                             </li>
                         }
 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark @("Order" == controller ? active : null)" asp-area="Admin" asp-controller="Order" asp-action="Index">Order</a>
+                        </li>
+
+
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(ProjectConstant.Shopping_Cart) != null)
                         {
                         // Session bilgisini tutan nesne

@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Index";
+
+    var status = Context.Request.Query["status"].ToString(); // query üzerinden gelen status bilgimi aldım
+
+    var active = "active";
+    var style = "text-decoration:none";
+
+
+    string pending = "";
+    string all = "";
+    string inprocess = "";
+    string rejected = "";
+    string completed = "";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active";
+            break;
+
+        case "inprocess":
+            inprocess = "active";
+            break;
+
+        default:
+            all = "active";
+            break;
+    }
+}
+
+<div class="border p-3">
+    <div class="d-flex justify-content-between mb-3">
+        <div class="p-2">
+            <h2 class="text-primary">Order's List</h2>
+        </div>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="@style" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
+                <li class="list-group-item @(status=="inprocess" ? active : null)">In Process</li>
+                </a>
+
+                <a style="@style" asp-controller="Order" asp-action="Index" asp-route-status="pending">
+                <li class="list-group-item @(status=="pending" ? active : null)">Pending</li>
+                </a>
+
+                <a style="@style" asp-controller="Order" asp-action="Index" asp-route-status="completed">
+                <li class="list-group-item @(status=="completed" ? active : null)">Completed</li>
+                </a>
+
+                <a style="@style" asp-controller="Order" asp-action="Index" asp-route-status="rejected">
+                <li class="list-group-item @(status=="rejected" ? active : null)">Rejected</li>
+                </a>
+
+                <a style="@style" asp-controller="Order" asp-action="Index" asp-route-status="all">
+                <li class="list-group-item @(status=="all" | status == "" ? active : null)">All</li>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<a asp-action="Upsert" class="btn btn-success btn-sm mb-3 float-end"><i class="fas fa-plus"></i> &nbsp; Create New Order</a>
+
+<table id="tblData" class="table table-bordered" style="width: 100%;">
+    <thead class="table-info">
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Order Status</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+<script src="~/js/order.js"></script>
+}
